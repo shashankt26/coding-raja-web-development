@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <!-- Include the libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <!-- Enhanced styles -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #2c3e50; /* Dark blue background */
+            color: #ecf0f1; /* Light gray text color */
+            transition: background-color 0.3s ease; /* Transition for body background color */
+        }
+
+        #app {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #34495e; /* Slightly darker blue background */
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #fff; /* White text color */
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #fff; /* White text color */
+        }
+
+        input {
+            width: calc(100% - 16px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd; /* Light gray border */
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px;
+            background-color: #3498db; /* Blue background */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; /* Transition for button background color */
+        }
+
+        button:hover {
+            background-color: #2980b9; /* Darker blue background on hover */
+        }
+
+        #previewBtn {
+            background-color: #27ae60; /* Green background for preview button */
+            margin-right: 10px;
+        }
+
+        #downloadBtn {
+            background-color: #e74c3c; /* Red background for download button */
+            display: none; /* Hide download button by default */
+        }
+
+        #resumeContent {
+            margin-top: 20px;
+        }
+
+        #resumeContent p {
+            margin: 5px 0;
+        }
+
+        #resumeContent h2,
+        #resumeContent p {
+            color: #fff; /* White text color */
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Resume Builder</h1>
+            <label for="templateSelect">Select Template:</label>
+            <select id="templateSelect" onchange="changeTemplate()">
+                <option value="template1">Template 1</option>
+                <option value="template2">Template 2</option>
+                <option value="template3">Template 3</option>
+                <!-- Add more template options as needed -->
+            </select>
+        </header>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="John Doe">
+
+        <label for="title">Title/Profession:</label>
+        <input type="text" id="title" placeholder="Web Developer">
+
+        <label for="education">Education:</label>
+        <input type="text" id="education" placeholder="BS in Computer Science">
+
+        <label for="experience">Experience:</label>
+        <input type="text" id="experience" placeholder="5 years in web development">
+
+        <label for="skills">Skills:</label>
+        <input type="text" id="skills" placeholder="JavaScript, HTML, CSS, etc.">
+
+        <label for="strengths">Strengths:</label>
+        <input type="text" id="strengths" placeholder="Team player, problem-solving, etc.">
+
+        <label for="weaknesses">Weaknesses:</label>
+        <input type="text" id="weaknesses" placeholder="Public speaking, etc.">
+
+        <button id="previewBtn" onclick="previewResume()">Preview</button>
+        <button id="downloadBtn" onclick="downloadResume()">Download Resume</button>
+
+        <div id="resumeContent">
+            <!-- This is where the dynamic content will be displayed -->
+        </div>
+    </div>
+
+    <script>
+        const templateSelect = document.getElementById('templateSelect');
+        const resumeContent = document.getElementById('resumeContent');
+        const nameInput = document.getElementById('name');
+        const titleInput = document.getElementById('title');
+        const educationInput = document.getElementById('education');
+        const experienceInput = document.getElementById('experience');
+        const skillsInput = document.getElementById('skills');
+        const strengthsInput = document.getElementById('strengths');
+        const weaknessesInput = document.getElementById('weaknesses');
+        const previewBtn = document.getElementById('previewBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        function changeTemplate() {
+            // ... (unchanged)
+        }
+
+        function previewResume() {
+            // Set preview content based on user inputs
+            resumeContent.innerHTML = `
+                <h2 id="previewName">${nameInput.value}</h2>
+                <p id="previewTitle">${titleInput.value}</p>
+                <p id="previewEducation">Education: ${educationInput.value}</p>
+                <p id="previewExperience">Experience: ${experienceInput.value}</p>
+                <p id="previewSkills">Skills: ${skillsInput.value}</p>
+                <p id="previewStrengths">Strengths: ${strengthsInput.value}</p>
+                <p id="previewWeaknesses">Weaknesses: ${weaknessesInput.value}</p>
+                <!-- Add more template-specific content -->
+            `;
+
+            // Show download button
+            downloadBtn.style.display = 'inline-block';
+        }
+
+        function downloadResume() {
+            // Get user inputs
+            const name = document.getElementById('name').value;
+            const title = document.getElementById('title').value;
+            const education = document.getElementById('education').value;
+            const experience = document.getElementById('experience').value;
+            const skills = document.getElementById('skills').value;
+            const strengths = document.getElementById('strengths').value;
+            const weaknesses = document.getElementById('weaknesses').value;
+
+            // Create a plain text representation of the resume
+            const plainTextResume = `
+                Name: ${name}
+                Title/Profession: ${title}
+                Education: ${education}
+                Experience: ${experience}
+                Skills: ${skills}
+                Strengths: ${strengths}
+                Weaknesses: ${weaknesses}
+            `;
+
+            // Create a Blob from the plain text
+            const blob = new Blob([plainTextResume], { type: 'text/plain;charset=utf-8' });
+
+            // Use FileSaver.js to save the Blob as a text file
+            saveAs(blob, 'resume.txt');
+        }
+
+        function convertToPlainText(element) {
+            // Convert HTML content to plain text
+            const textContent = element.innerText || element.textContent;
+            return textContent.trim();
+        }
+    </script>
+</body>
+</html>
